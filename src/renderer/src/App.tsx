@@ -1,7 +1,7 @@
 import './styles/global.css'
 
-export function App() {
-    return <h1 className="text-violet-900 font-bold text-4xl">Hello World</h1>
-}
+import { Routes } from './Routes'
 
-export default App
+export function App() {
+  return <Routes />
+}

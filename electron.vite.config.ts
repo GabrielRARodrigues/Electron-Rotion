@@ -4,28 +4,31 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from 'tailwindcss'
 
 export default defineConfig({
-    main: {
-        plugins: [externalizeDepsPlugin()],
-        publicDir: resolve('resources')
+  main: {
+    plugins: [externalizeDepsPlugin()],
+    publicDir: resolve('resources')
+  },
+  preload: {
+    plugins: [externalizeDepsPlugin()]
+  },
+  renderer: {
+    define: {
+      'process.platform': JSON.stringify(process.platform)
     },
-    preload: {
-        plugins: [externalizeDepsPlugin()]
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss({
+            config: './src/renderer/tailwind.config.js'
+          })
+        ]
+      }
     },
-    renderer: {
-        css: {
-            postcss: {
-                plugins: [
-                    tailwindcss({
-                        config: './src/renderer/tailwind.config.js'
-                    })
-                ]
-            }
-        },
-        resolve: {
-            alias: {
-                '@renderer': resolve('src/renderer/src')
-            }
-        },
-        plugins: [react()]
-    }
+    resolve: {
+      alias: {
+        '@renderer': resolve('src/renderer/src')
+      }
+    },
+    plugins: [react()]
+  }
 })
