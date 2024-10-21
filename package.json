@@ -37,7 +37,8 @@
     "electron-router-dom": "^1.0.5",
     "electron-store": "^8.2.0",
     "phosphor-react": "^1.4.1",
-    "react-router-dom": "^6.24.0"
+    "react-router-dom": "^6.24.0",
+    "rotion": "file:"
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
