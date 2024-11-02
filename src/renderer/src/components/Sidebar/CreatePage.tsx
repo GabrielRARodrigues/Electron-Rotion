@@ -1,4 +1,7 @@
+import { useEffect } from 'react'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { Plus } from 'phosphor-react'
 
@@ -6,6 +9,7 @@ import { Document } from '~/src/shared/types/ipc'
 
 export function CreatePage() {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const { isPending: isCreatingNewDocument, mutateAsync: createDocument } =
     useMutation({
@@ -18,8 +22,22 @@ export function CreatePage() {
         queryClient.setQueryData(['documents'], (documents: Document[]) => {
           return [...documents, data]
         })
+
+        navigate(`/documents/${data.id}`)
       }
     })
+
+  useEffect(() => {
+    function onNewDocument() {
+      createDocument()
+    }
+
+    const unsubscribe = window.api.onNewDocumentRequest(onNewDocument)
+
+    return () => {
+      unsubscribe()
+    }
+  }, [createDocument])
 
   return (
     <button
